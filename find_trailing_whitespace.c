@@ -28,6 +28,8 @@ static const char *PLUGIN_NAME = "Find trailing whitespace";
 static const char *PLUGIN_DESCRIPTION = "Finds trailing whitespace";
 static const char *PLUGIN_VERSION = "0.1";
 static const char *PLUGIN_AUTHOR = "Leif Persson <leifmariposa@hotmail.com>";
+static const char *PLUGIN_KEY_NAME = "find_trailing_whitespace";
+
 
 
 /**********************************************************************/
@@ -179,25 +181,19 @@ static void kb_activate(G_GNUC_UNUSED guint key_id)
 
 
 /**********************************************************************/
-static gboolean ctr_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+static gboolean init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	D(log_debug("%s:%s", __FILE__, __FUNCTION__));
 
 	GtkWidget* edit_menu = ui_lookup_widget(plugin->geany_data->main_widgets->window, "search1_menu");
 
-	GtkWidget *s_sep_item = gtk_separator_menu_item_new();
-	gtk_widget_show(s_sep_item);
-	gtk_container_add(GTK_CONTAINER(edit_menu), s_sep_item);
-
 	GtkWidget *main_menu_item;
-	/* Create a new menu item and show it */
 	main_menu_item = gtk_menu_item_new_with_mnemonic(PLUGIN_NAME);
 	gtk_widget_show(main_menu_item);
-	//gtk_container_add(GTK_CONTAINER(plugin->geany_data->main_widgets->tools_menu), main_menu_item);
 	gtk_container_add(GTK_CONTAINER(edit_menu), main_menu_item);
 
-	GeanyKeyGroup *key_group = plugin_set_key_group(plugin, "misc", KB_COUNT, NULL);
-	keybindings_set_item(key_group, KB_GOTO_FUNCTION, kb_activate, 0, 0, "Find_trailing_whitespace", PLUGIN_NAME, main_menu_item);
+	GeanyKeyGroup *key_group = plugin_set_key_group(plugin, PLUGIN_KEY_NAME, KB_COUNT, NULL);
+	keybindings_set_item(key_group, KB_GOTO_FUNCTION, kb_activate, 0, 0, PLUGIN_KEY_NAME, PLUGIN_NAME, main_menu_item);
 
 	g_signal_connect(main_menu_item, "activate", G_CALLBACK(item_activate_cb), NULL);
 	geany_plugin_set_data(plugin, main_menu_item, NULL);
@@ -207,7 +203,7 @@ static gboolean ctr_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 
 
 /**********************************************************************/
-static void ctr_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, gpointer pdata)
+static void cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, gpointer pdata)
 {
 	D(log_debug("%s:%s", __FILE__, __FUNCTION__));
 
@@ -227,7 +223,7 @@ void geany_load_module(GeanyPlugin *plugin)
 	plugin->info->description = PLUGIN_DESCRIPTION;
 	plugin->info->version = PLUGIN_VERSION;
 	plugin->info->author = PLUGIN_AUTHOR;
-	plugin->funcs->init = ctr_init;
-	plugin->funcs->cleanup = ctr_cleanup;
+	plugin->funcs->init = init;
+	plugin->funcs->cleanup = cleanup;
 	GEANY_PLUGIN_REGISTER(plugin, 225);
 }
