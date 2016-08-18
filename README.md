@@ -1,4 +1,4 @@
-Find trailing whitespace for Geany
+Find trailing whitespace Plugin for Geany
 =========================
 
 About
@@ -24,10 +24,10 @@ Using the Plugin
 
 After having enabled the plugin inside Geany through Geany's plugin manager,
 you'll need to setup a keybinding. Go to the preferences, and under the Keybindings tab 
-set the Open File keybinding, e. g. <Primary><Shift>t.
+set the Find trailing whitespace keybinding, e. g. <Primary><Shift>t.
 
 Using the plugin is simple. Press the keybinding that you selected and the plugin will search for trailing 
-whitespace, with start from cursors current position, if any trailing whitespace is found it will be selected. 
+whitespace, with start from cursors current position. If any trailing whitespace is found it will be selected. 
 Press the keybinding again to continue to search.
 
 License
